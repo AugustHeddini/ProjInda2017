@@ -6,3 +6,5 @@ Javax.swing bör kunna användas för att skapa ett fönster att ha allt i (JFra
 
 LWJGL kan vara användbart för att göra spelet i:
 https://www.lwjgl.org/
+
+GLFW kan också användas för att skapa fönster osv.. http://www.glfw.org/docs/latest/intro_guide.html
