@@ -27,7 +27,7 @@ public class MenuState extends GameState {
 		this.gsm = gsm;
 		
 		try {
-			bg = new Background("/Backgrounds/map.png", 1);
+			bg = new Background("/Backgrounds/grassbg1.gif", 1);
 			bg.setVector(-0.1,  0);
 			
 			titleColor = Color.BLACK;
@@ -87,6 +87,7 @@ public class MenuState extends GameState {
 		}
 		if(currentChoice == 1) {
 			//picked help
+			gsm.setState(2);
 		}
 		if(currentChoice == 2) {
 			//picked quit
