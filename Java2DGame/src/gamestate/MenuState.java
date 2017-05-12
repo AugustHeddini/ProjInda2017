@@ -82,7 +82,7 @@ public class MenuState extends GameState {
 		
 		if(currentChoice == 0) {
 			//picked start
-			gsm.setState(1);
+			gsm.setState(3);
 			
 		}
 		if(currentChoice == 1) {

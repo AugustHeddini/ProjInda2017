@@ -69,6 +69,7 @@ public class HelpState extends GameState {
 
     }
     public  void update(){
+        bg.update();
 
     }
     private void select() {

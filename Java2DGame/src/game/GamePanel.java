@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private Thread thread;
 	private boolean running;
 	private int FPS = 60;
-	private long targetTime = 1000/60;
+	private long targetTime = 1000/FPS;
 	
 	//image 
 	private BufferedImage image;
@@ -61,12 +61,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		
 		running = true;
 		
-		gsm = new GameStateManager();
+		gsm = new GameStateManager(this);
 	}
 	public void run() {
 		
 		init();
-		
+
 		long start;
 		long elapsed;
 		long wait;
@@ -119,11 +119,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		gsm.keyReleased(arg0.getKeyCode());
 	}
 
-
-
-
-	
-	
-	
 
 }
