@@ -5,7 +5,10 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import game.GamePanel;
 import tilemap.Background;
+
+import javax.swing.*;
 
 public class MenuState extends GameState {
 	
@@ -28,7 +31,7 @@ public class MenuState extends GameState {
 		
 		try {
 			bg = new Background("/Backgrounds/map.png", 1);
-			bg.setVector(-0.1,  0);
+			bg.setVector(0,  - 0.1);
 			
 			titleColor = Color.BLACK;
 			titleFont = new Font("Century Gothic", Font.BOLD, 28);
@@ -62,13 +65,16 @@ public class MenuState extends GameState {
 		for(int i = 0; i < options.length; i++) {
 			
 			if(i == currentChoice) {
-				g.setColor(Color.BLACK);
-			} else {
 				g.setColor(Color.RED);
+			} else {
+				g.setColor(Color.BLACK);
 			}
 			
 			g.drawString(options[i], 145, 140 + i*15);
 		}
+
+		//JTextField text = new JTextField("Enter name here");
+		//g.draw
 	}
 
 	@Override
@@ -82,7 +88,7 @@ public class MenuState extends GameState {
 		
 		if(currentChoice == 0) {
 			//picked start
-			gsm.setState(gsm.LEVELSTATE);
+			gsm.setState(gsm.LEVEL1STATE);
 			
 		}
 		if(currentChoice == 1) {

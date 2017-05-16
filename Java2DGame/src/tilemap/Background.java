@@ -61,5 +61,12 @@ public class Background {
 		if(x > 0 ) {
 			g.drawImage(image, (int) x - GamePanel.WIDTH, (int) y, null);
 		}
+
+		if(y < 0) {
+			g.drawImage(image, (int) x, (int) y + GamePanel.HEIGHT, null);
+		}
+		if(y > 0) {
+			g.drawImage(image, (int) x, (int) y - GamePanel.HEIGHT, null);
+		}
 	}
 }

@@ -1,7 +1,7 @@
 package characters;
 
 import game.GamePanel;
-import gamestate.LevelState;
+import gamestate.Level1State;
 import tilemap.TileMap;
 
 import javax.imageio.ImageIO;
@@ -20,18 +20,24 @@ public class Player {
     private int x;
     private int y;
 
+
     //Health
-    private double health;
+    private int health;
 
     //image of player
     private BufferedImage image;
 
-    public Player(int x, int y) {
+    //tilemap
+    private TileMap tileMap;
+
+    public Player(int x, int y, TileMap tileMap) {
 
         //set the original pos
         this.x = x;
         this.y = y;
         init();
+
+        this.tileMap = tileMap;
     }
 
     public void init() {
@@ -83,8 +89,9 @@ public class Player {
         if(x < 0) {
             return true;
         }
+
         //touches the right wall
-        if(x > GamePanel.WIDTH - WIDTH) {
+        if(x > tileMap.getWidth() - WIDTH) {
             return true;
         }
         //touches the ceiling of map
@@ -92,11 +99,16 @@ public class Player {
             return true;
         }
         //touches the floor of map
-        if(y > GamePanel.HEIGHT - HEIGHT) {
+        if(y > tileMap.getHeight() - HEIGHT) {
             return true;
         }
         return false;
     }
     public int getX() {return x;}
     public int getY() {return y;}
+
+    public boolean hasEncountered() {
+        return true;
+    }
+
 }

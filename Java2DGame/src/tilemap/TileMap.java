@@ -3,6 +3,7 @@ package tilemap;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.HashMap;
 
 import javax.imageio.*;
 
@@ -21,10 +22,7 @@ public class TileMap {
 	private int yMin;
 	private int xMax;
 	private int yMax;
-	
-	//might not implement
-	private double tween;
-	
+
 	//Map
 	private int[][] map;
 	private int tileSize;
@@ -37,6 +35,8 @@ public class TileMap {
 	private BufferedImage tileSet;
 	private int numTilesAcross;
 	private Tile[][] tiles;
+	//Integer one is position in array, and Integer two is a value of 0 or 1 based on the tile type
+	private HashMap<Integer, Integer> blocked;
 	
 	//drawing bounds
 	private int rowOffSet;
@@ -47,9 +47,10 @@ public class TileMap {
 	public TileMap(int tileSize) {
 		
 		this.tileSize = tileSize;
-		numRowsToDraw = GamePanel.HEIGHT/tileSize + 2;
-		numColonsToDraw = GamePanel.WIDTH/tileSize + 2;
-		tween = 0.07;
+		numRowsToDraw = 240/tileSize ;
+		numColonsToDraw = 320/tileSize ;
+		blocked = new HashMap<>();
+
 	}
 	
 	/**
@@ -70,13 +71,13 @@ public class TileMap {
 			BufferedImage subImage;
 			for(int col = 0; col < numTilesAcross; col++ ) {
 				
-				//first row
-				subImage = tileSet.getSubimage(col * tileSize,0 , tileSize, tileSize);
-				tiles[0][col] = new Tile(subImage, Tile.NORMAL);
-				
-				//second row
-				subImage = tileSet.getSubimage(col * tileSize,tileSize , tileSize, tileSize);
-				tiles[1][col] = new Tile(subImage, Tile.BLOCKED);
+
+
+				for(int j = 0; j < 2; j++) {
+					subImage = tileSet.getSubimage(col * tileSize,j*tileSize , tileSize, tileSize);
+					tiles[j][col] = new Tile(subImage, j);
+					blocked.put(j*col, j);
+				}
 				
 			}
 			
@@ -91,35 +92,43 @@ public class TileMap {
 	 */
 	public void loadMap(String s) {
 		
-		
-		try {
-			
-			InputStream in = getClass().getResourceAsStream(s);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			
-			numColons = 40;
-			numRows = 30;
-			map = new int[numRows][numColons];
-			width = numColons * tileSize;
-			height = numRows * tileSize;
-			
-			//limitors for whitespace
-			String delims = ",";
-			for(int row = 0; row < numRows; row++) {
-				//get our line 
-				String line = br.readLine();
-				//split by whitespace
-				String[] tokens = line.split(delims);
-				for(int cols = 0; cols < numColons; cols++) {
-					map[row][cols] = Integer.parseInt(tokens[cols]);
+
+
+			try {
+
+				InputStream in = getClass().getResourceAsStream(s);
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+				numColons = 20;
+				numRows = 16;
+				map = new int[numRows][numColons];
+				width = numColons * tileSize;
+				height = numRows * tileSize;
+
+
+				xMin = GamePanel.WIDTH - width;
+				xMax = 0;
+				yMin = GamePanel.HEIGHT - height;
+				yMax = 0;
+
+				//limitors for whitespace
+				String delims = ",";
+				for (int row = 0; row < numRows; row++) {
+					//get our line
+					String line = br.readLine();
+					//split by whitespace
+					String[] tokens = line.split(delims);
+					for (int cols = 0; cols < numColons; cols++) {
+						map[row][cols] += Integer.parseInt(tokens[cols]);
+					}
 				}
+
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
 			}
-			
-			
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
+
 		
 	}
 	
@@ -150,8 +159,8 @@ public class TileMap {
 	
 	public void setPosition(double x, double y) {
 		
-		this.x += (x - this.x)*tween;
-		this.y += (y - this.y)*tween;
+		this.x += (x - this.x);
+		this.y += (y - this.y);
 		
 		fixBounds();
 		
@@ -160,14 +169,16 @@ public class TileMap {
 	}
 	private void fixBounds() {
 		
-		if(x < xMin) x = xMin;
-		if(y < yMin) y = yMin;
-		if(x > xMax) x = xMax;
-		if(y > yMax) y = yMax;
+		if(x > xMin) x = xMin;
+		if(y > yMin) y = yMin;
+		if(x < xMax) x = xMax;
+		if(y < yMax) y = yMax;
 	}
 	
 	public void draw(Graphics2D g) {
-		
+
+
+
 		for(int row = rowOffSet; row < rowOffSet + numRowsToDraw; row ++) {
 			
 			if(row >= numRows) break;
@@ -184,6 +195,8 @@ public class TileMap {
 				//find out which tile it is
 				int r = rc / numTilesAcross;
 				int c = rc % numTilesAcross;
+
+
 				
 				g.drawImage(tiles[r][c].getImage(), (int) x +col*tileSize, (int) y + row*tileSize, null);
 				

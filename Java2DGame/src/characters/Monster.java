@@ -8,5 +8,6 @@ public interface Monster {
     int getX();
     int getY();
     void setPosition(int x, int y);
+    void draw(java.awt.Graphics2D g);
 
 }
