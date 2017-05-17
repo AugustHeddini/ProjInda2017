@@ -1,8 +1,6 @@
-package characters;
+package mapobjects;
 
 import game.GamePanel;
-import gamestate.Level1State;
-import tilemap.TileMap;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
