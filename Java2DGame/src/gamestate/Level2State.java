@@ -39,10 +39,11 @@ public class Level2State extends GameState {
         public void init() {
 
             tileMap = new TileMap(16);
-            tileMap.loadTiles("/Tilesets/TileTest.png");
-            tileMap.loadMap("/Maps/Tilemaptest1.csv");
+            tileMap.loadTiles("/Tilesets/TileSetNew.png");
+            tileMap.loadMap("/Maps/MapDuo.csv");
             tileMap.setPosition(0, 0);
-            myChar.setPosition(16, 16);
+            tileMap.loadTileTypes();
+            myChar.setPosition(304, 0);
 
 
         }
@@ -57,7 +58,7 @@ public class Level2State extends GameState {
 
 
             //clear screen
-            g.setColor(Color.WHITE);
+            g.setColor(Color.GREEN);
             g.fillRect(0,0, GamePanel.WIDTH, GamePanel.HEIGHT);
 
             //draw tilemap

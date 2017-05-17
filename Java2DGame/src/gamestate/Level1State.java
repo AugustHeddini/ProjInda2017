@@ -35,10 +35,11 @@ public class Level1State extends GameState {
 	public void init() {
 		
 		tileMap = new TileMap(16);
-		tileMap.loadTiles("/Tilesets/TileTest.png");
-		tileMap.loadMap("/Maps/Tilemaptest1.csv");
+		tileMap.loadTiles("/Tilesets/TileSetNew.png");
+		tileMap.loadMap("/Maps/MapUno.csv");
 		tileMap.setPosition(0, 0);
-		myChar = new Player(0, 0, tileMap);
+		//tileMap.loadTileTypes();
+		myChar = new Player(32, 32);
 		
 	}
 
@@ -76,51 +77,28 @@ public class Level1State extends GameState {
 
 		//Right arrow pressed move 1 tile to the right
 		if(k == KeyEvent.VK_RIGHT) {
-			myChar.setPosition(16, 0);
-			//test if the character has gone of left side of screen
-			if (myChar.outOfBounds()) {
-				myChar.setPosition(-16, 0);
-			}
+
+			setPlayerPosition(16, 0);
 
 		}
 		//Left arrow pressed move 1 to the left
 		if(k == KeyEvent.VK_LEFT) {
-			myChar.setPosition(-16, 0);
-			//test if character has gone off the right side of screen
-			if(myChar.outOfBounds()) {
-				myChar.setPosition(16, 0);
-			}
-			//test if collsion with blocked tile
-//			if(wasCollision(myChar.getX(), myChar.getY())) {
-//				myChar.setPosition(16, 0);
-//			}
+
+			setPlayerPosition(-16, 0);
+
 		}
 		//Down arrow pressed move 1 tile down
 		if(k == KeyEvent.VK_DOWN) {
-			myChar.setPosition(0, 16);
-			//test if character has gone off the bottom the screen
-			if(myChar.outOfBounds()) {
-				myChar.setPosition(0, -16);
-			}
-			if(myChar.getY() > GamePanel.WIDTH) {
-				gsm.setState(gsm.LEVEL2STATE);
-			}
-			if (myChar.getY() > GamePanel.HEIGHT) {
-				//when you go to the next screen the new state will first be created with my char
-				//and then the state is set
-				gsm.addNextLevel(myChar);
-				gsm.setState(gsm.LEVEL2STATE);
-			}
+
+			setPlayerPosition(0, 16);
 
 
 		}
 		//Up arrow pressed move 1 tile up
 		if(k == KeyEvent.VK_UP) {
-			myChar.setPosition(0, -16);
-			//test if the character has gone through the top of screen
-			if (myChar.outOfBounds()) {
-				myChar.setPosition(0, 16);
-			}
+
+
+			setPlayerPosition(0, -16);
 		}
 		if(k == KeyEvent.VK_1) {
 			//when you go to the next screen the new state will first be created with my char
@@ -130,6 +108,16 @@ public class Level1State extends GameState {
 		}
 
 
+	}
+	private void setPlayerPosition(int xMove, int yMove) {
+
+
+		if(tileMap.isBlockedTile(myChar.getX() + xMove, myChar.getY() + yMove)) {
+			System.out.println("Blocked");
+			return;
+		} else {
+			myChar.setPosition(xMove, yMove);
+		}
 	}
 
 	@Override

@@ -76,7 +76,7 @@ public class TileMap {
 				for(int j = 0; j < 2; j++) {
 					subImage = tileSet.getSubimage(col * tileSize,j*tileSize , tileSize, tileSize);
 					tiles[j][col] = new Tile(subImage, j);
-					blocked.put(j*col, j);
+
 				}
 				
 			}
@@ -100,7 +100,7 @@ public class TileMap {
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
 				numColons = 20;
-				numRows = 16;
+				numRows = 15;
 				map = new int[numRows][numColons];
 				width = numColons * tileSize;
 				height = numRows * tileSize;
@@ -120,8 +120,20 @@ public class TileMap {
 					String[] tokens = line.split(delims);
 					for (int cols = 0; cols < numColons; cols++) {
 						map[row][cols] += Integer.parseInt(tokens[cols]);
-					}
-				}
+                        System.out.print(map[row][cols] + " ");
+                        //int type = tiles[r][c].getType();
+                        if(map[row][cols] != 0 || map[row][cols] != 1) {
+
+                            blocked.put(map[row][cols], Tile.BLOCKED);
+
+                        } else {
+
+                            blocked.put(map[row][cols], Tile.NORMAL);
+
+                        }
+                    }
+                    System.out.println();
+                }
 
 
 			} catch (Exception e) {
@@ -147,14 +159,41 @@ public class TileMap {
 	public int getHeight() {
 		return height;
 	}
-	public int getTileType(int row, int col) {
-		
-		//get the tile value
-		int rc = map[row][col];
-		//find out which tile it is
-		int r = rc / numTilesAcross;
-		int c = rc % numTilesAcross;
-		return tiles[r][c].getType();
+	public void loadTileTypes() {
+
+		for(int row = 0; row < numRows; row ++) {
+
+			if(row >= numRows) break;
+
+			for(int col = 0; col < numColons; col++) {
+
+				if(col >= numColons) break;
+
+
+
+
+
+				//int type = tiles[r][c].getType();
+                if(map[row][col] != 0) {
+                    blocked.put(map[row][col], Tile.BLOCKED);
+                } else {
+                    blocked.put(map[row][col], Tile.NORMAL);
+                }
+
+
+
+			}
+		}
+	}
+	public boolean isBlockedTile(int xpos, int ypos) {
+
+
+		if( (blocked.get(map[ypos/tileSize][xpos/tileSize])) == Tile.BLOCKED) {
+			return true;
+		}
+
+		return false;
+
 	}
 	
 	public void setPosition(double x, double y) {
@@ -188,7 +227,7 @@ public class TileMap {
 				if(col >= numColons) break;
 				
 				//if the image with tiles is empty at that position dont bother drawing it
-				if(map[row][col] == 0) continue;
+				//if(map[row][col] == 0) continue;
 				
 				//get the tile value
 				int rc = map[row][col];

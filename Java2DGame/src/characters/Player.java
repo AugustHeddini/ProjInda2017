@@ -27,17 +27,15 @@ public class Player {
     //image of player
     private BufferedImage image;
 
-    //tilemap
-    private TileMap tileMap;
 
-    public Player(int x, int y, TileMap tileMap) {
+    public Player(int x, int y) {
 
         //set the original pos
         this.x = x;
         this.y = y;
         init();
 
-        this.tileMap = tileMap;
+
     }
 
     public void init() {
@@ -66,6 +64,7 @@ public class Player {
      */
     public void setPosition(int x, int y) {
 
+
         this.x += x;
         this.y += y;
     }
@@ -91,7 +90,7 @@ public class Player {
         }
 
         //touches the right wall
-        if(x > tileMap.getWidth() - WIDTH) {
+        if(x > GamePanel.WIDTH - WIDTH) {
             return true;
         }
         //touches the ceiling of map
@@ -99,7 +98,7 @@ public class Player {
             return true;
         }
         //touches the floor of map
-        if(y > tileMap.getHeight() - HEIGHT) {
+        if(y > GamePanel.HEIGHT - HEIGHT) {
             return true;
         }
         return false;
