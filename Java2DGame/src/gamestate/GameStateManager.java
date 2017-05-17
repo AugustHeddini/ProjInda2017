@@ -2,7 +2,7 @@ package gamestate;
 
 import characters.Monster;
 import characters.Player;
-import game.Game;
+
 
 import java.util.ArrayList;
 
@@ -14,15 +14,16 @@ public class GameStateManager {
 	public static final int MENUSTATE = 0;
 	public static final int LEVEL1STATE = 1;
 	public static final int LEVEL2STATE = 2;
-	public static final int FIGHTSTATE = 3;
+	public static final int LEVEL3STATE = 3;
 
 
-	public int currentLevel = 1;
+
+	public int currentLevel;
 	
 	public GameStateManager() {
 		
 		gameStates = new ArrayList<GameState>();
-		
+		currentLevel = 1;
 		currentState = MENUSTATE;
 		gameStates.add(new MenuState(this));
 		gameStates.add(new Level1State(this));
@@ -34,7 +35,7 @@ public class GameStateManager {
 	public void setState(int state) {
 		
 		currentState = state;
-		//gameStates.get(currentState).init();
+
 		
 	}
 	public GameState getState(int state) {
@@ -64,7 +65,21 @@ public class GameStateManager {
 	public void addNextLevel( Player player) {
 
 		if(currentLevel == 1) {
+
+			player.setNewPosition(320 - Player.WIDTH*2, 0);
+			System.out.println(player.getX() + " " + player.getY() );
 			gameStates.add(new Level2State(this, player));
+			currentLevel++;
+			return;
+		}
+		if (currentLevel == 2) {
+
+			player.setNewPosition(0, 0);
+			System.out.println(player.getX() + " " + player.getY() );
+			gameStates.add(new Level3State(this, player));
+			currentLevel++;
+			return;
 		}
 	}
+
 }

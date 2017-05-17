@@ -120,9 +120,8 @@ public class TileMap {
 					String[] tokens = line.split(delims);
 					for (int cols = 0; cols < numColons; cols++) {
 						map[row][cols] += Integer.parseInt(tokens[cols]);
-                        System.out.print(map[row][cols] + " ");
-                        //int type = tiles[r][c].getType();
-                        if(map[row][cols] != 0 && map[row][cols] != 1) {
+
+                        if(map[row][cols] != 0 && map[row][cols] != 1 && map[row][cols] != 17) {
 
                             blocked.put(map[row][cols], Tile.BLOCKED);
 
@@ -132,7 +131,8 @@ public class TileMap {
 
                         }
                     }
-                    System.out.println();
+
+
                 }
 
 
@@ -159,32 +159,7 @@ public class TileMap {
 	public int getHeight() {
 		return height;
 	}
-	public void loadTileTypes() {
 
-		for(int row = 0; row < numRows; row ++) {
-
-			if(row >= numRows) break;
-
-			for(int col = 0; col < numColons; col++) {
-
-				if(col >= numColons) break;
-
-
-
-
-
-				//int type = tiles[r][c].getType();
-                if(map[row][col] != 0) {
-                    blocked.put(map[row][col], Tile.BLOCKED);
-                } else {
-                    blocked.put(map[row][col], Tile.NORMAL);
-                }
-
-
-
-			}
-		}
-	}
 	public boolean isBlockedTile(int xpos, int ypos) {
 
 

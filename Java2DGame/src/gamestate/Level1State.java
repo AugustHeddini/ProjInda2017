@@ -38,7 +38,7 @@ public class Level1State extends GameState {
 		tileMap.loadTiles("/Tilesets/TileSetNew.png");
 		tileMap.loadMap("/Maps/MapUno.csv");
 		tileMap.setPosition(0, 0);
-		//tileMap.loadTileTypes();
+
 		myChar = new Player(32, 32);
 		
 	}
@@ -49,7 +49,7 @@ public class Level1State extends GameState {
 
 
 		//clear screen
-		g.setColor(Color.GREEN);
+		g.setColor(new Color(0xaae9af));
 		g.fillRect(0,0,GamePanel.WIDTH, GamePanel.HEIGHT);
 		
 		//draw tilemap
@@ -66,6 +66,7 @@ public class Level1State extends GameState {
 
 	@Override
 	public void update() {
+
 
 
 		
@@ -100,20 +101,26 @@ public class Level1State extends GameState {
 
 			setPlayerPosition(0, -16);
 		}
-		if(k == KeyEvent.VK_1) {
-			//when you go to the next screen the new state will first be created with my char
-			//and then the state is set
-			gsm.addNextLevel(myChar);
-			gsm.setState(gsm.LEVEL2STATE);
-		}
+
 
 
 	}
+	private boolean playerEnteringNextLevel(int yMove) {
+
+		return (myChar.getY() +yMove) >= 240;
+	}
 	private void setPlayerPosition(int xMove, int yMove) {
 
+        if(playerEnteringNextLevel(yMove)) {
+            //when you go to the next screen the new state will first be created with my char
+            //and then the state is set
+            gsm.addNextLevel(myChar);
+            gsm.setState(gsm.LEVEL2STATE);
+            return;
+        }
 
 		if(tileMap.isBlockedTile(myChar.getX() + xMove, myChar.getY() + yMove)) {
-			System.out.println("Blocked");
+
 			return;
 		} else {
 			myChar.setPosition(xMove, yMove);

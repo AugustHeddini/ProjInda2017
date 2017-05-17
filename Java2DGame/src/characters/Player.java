@@ -68,6 +68,11 @@ public class Player {
         this.x += x;
         this.y += y;
     }
+    public void setNewPosition(int x, int y) {
+
+        this.x = x;
+        this.y = y;
+    }
 
     /**
      * find out if there was a collision with blocked wall
