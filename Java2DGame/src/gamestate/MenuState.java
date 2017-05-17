@@ -30,8 +30,8 @@ public class MenuState extends GameState {
 		this.gsm = gsm;
 		
 		try {
-			bg = new Background("/Backgrounds/map.png", 1);
-			bg.setVector(0,  - 0.1);
+			bg = new Background("/Backgrounds/garden.png", 1);
+			bg.setVector(-0.1,   0);
 			
 			titleColor = Color.BLACK;
 			titleFont = new Font("Century Gothic", Font.BOLD, 28);
@@ -58,7 +58,7 @@ public class MenuState extends GameState {
 		//draw title
 		g.setColor(titleColor);
 		g.setFont(titleFont);
-		g.drawString("Spooky Dungeon", 30, 50);
+		g.drawString("Wizard's Garden", 30, 50);
 		
 		//draw menu options
 		g.setFont(font);

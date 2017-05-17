@@ -122,7 +122,7 @@ public class TileMap {
 						map[row][cols] += Integer.parseInt(tokens[cols]);
                         System.out.print(map[row][cols] + " ");
                         //int type = tiles[r][c].getType();
-                        if(map[row][cols] != 0 || map[row][cols] != 1) {
+                        if(map[row][cols] != 0 && map[row][cols] != 1) {
 
                             blocked.put(map[row][cols], Tile.BLOCKED);
 
