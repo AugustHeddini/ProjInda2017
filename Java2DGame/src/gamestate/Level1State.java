@@ -4,12 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import characters.Monster;
-import characters.Player;
+import mapobjects.Monster;
+import mapobjects.Player;
 import game.GamePanel;
 import tilemap.TileMap;
-
-import javax.swing.*;
 
 public class Level1State extends GameState {
 	

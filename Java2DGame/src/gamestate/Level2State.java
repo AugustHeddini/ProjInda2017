@@ -1,8 +1,8 @@
 package gamestate;
 
-import characters.Bandit;
-import characters.Monster;
-import characters.Player;
+import mapobjects.Bandit;
+import mapobjects.Monster;
+import mapobjects.Player;
 import game.GamePanel;
 import tilemap.TileMap;
 
@@ -47,7 +47,7 @@ public class Level2State extends GameState {
 
 
         }
-    
+
 
         @Override
         public void draw(Graphics2D g) {

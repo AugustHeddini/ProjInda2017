@@ -1,12 +1,10 @@
 package gamestate;
 
-import characters.Bandit;
-import characters.Monster;
-import characters.Player;
-import characters.Wizard;
+import mapobjects.Bandit;
+import mapobjects.Monster;
+import mapobjects.Player;
+import mapobjects.Wizard;
 import game.GamePanel;
-import gamestate.GameState;
-import gamestate.GameStateManager;
 import tilemap.TileMap;
 
 import java.awt.*;

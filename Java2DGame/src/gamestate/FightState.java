@@ -1,7 +1,7 @@
 package gamestate;
 
-import characters.Monster;
-import characters.Player;
+import mapobjects.Monster;
+import mapobjects.Player;
 import tilemap.Background;
 
 import java.awt.*;
