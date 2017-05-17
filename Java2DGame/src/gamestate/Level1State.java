@@ -7,109 +7,110 @@ import java.awt.event.KeyEvent;
 import mapobjects.Monster;
 import mapobjects.Player;
 import game.GamePanel;
+import mapobjects.Wizard;
 import tilemap.TileMap;
 
 public class Level1State extends GameState {
-	
-	//The tilemap of the level
-	private TileMap tileMap;
+
+    //The tilemap of the level
+    private TileMap tileMap;
 
 
-	
-	//Needs to be able to hold a character
-	private Player myChar;
+    //Needs to be able to hold a character
+    private Player myChar;
 
-	private Monster[] monsters;
-	
-	public Level1State(GameStateManager gsm) {
-		
-		this.gsm = gsm;
-		
-		init();
-		
+    private Monster[] monsters = {
+            new Wizard(16, 16, "/Tilesets/characters.png"),
+    };
 
-	}
-	@Override
-	public void init() {
-		
-		tileMap = new TileMap(16);
-		tileMap.loadTiles("/Tilesets/TileSetNew.png");
-		tileMap.loadMap("/Maps/MapUno.csv");
-		tileMap.setPosition(0, 0);
+    public Level1State(GameStateManager gsm) {
 
-		myChar = new Player(32, 32);
-		
-	}
+        this.gsm = gsm;
 
-	@Override
-	public void draw(Graphics2D g) {
+        init();
 
 
+    }
 
-		//clear screen
-		g.setColor(new Color(0xaae9af));
-		g.fillRect(0,0,GamePanel.WIDTH, GamePanel.HEIGHT);
-		
-		//draw tilemap
-		tileMap.draw(g);
+    @Override
+    public void init() {
 
-		//draw player
-		myChar.draw(g);
+        tileMap = new TileMap(16);
+        tileMap.loadTiles("/Tilesets/TileSetNew.png");
+        tileMap.loadMap("/Maps/MapUno.csv");
+        tileMap.setPosition(0, 0);
 
+        myChar = new Player(32, 32);
 
+    }
 
-
-	
-	}
-
-	@Override
-	public void update() {
+    @Override
+    public void draw(Graphics2D g) {
 
 
+        //clear screen
+        g.setColor(new Color(0xaae9af));
+        g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 
-		
-		
-	}
+        //draw tilemap
+        tileMap.draw(g);
 
-	@Override
-	public void keyPressed(int k) {
+        //draw player
+        myChar.draw(g);
 
-		//Right arrow pressed move 1 tile to the right
-		if(k == KeyEvent.VK_RIGHT) {
-
-			setPlayerPosition(16, 0);
-
-		}
-		//Left arrow pressed move 1 to the left
-		if(k == KeyEvent.VK_LEFT) {
-
-			setPlayerPosition(-16, 0);
-
-		}
-		//Down arrow pressed move 1 tile down
-		if(k == KeyEvent.VK_DOWN) {
-
-			setPlayerPosition(0, 16);
+        for (Monster monster : monsters) {
+            monster.draw(g);
+        }
 
 
-		}
-		//Up arrow pressed move 1 tile up
-		if(k == KeyEvent.VK_UP) {
+    }
+
+    @Override
+    public void update() {
 
 
-			setPlayerPosition(0, -16);
-		}
+    }
+
+    @Override
+    public void keyPressed(int k) {
+
+        //Right arrow pressed move 1 tile to the right
+        if (k == KeyEvent.VK_RIGHT) {
+
+            setPlayerPosition(16, 0);
+
+        }
+        //Left arrow pressed move 1 to the left
+        if (k == KeyEvent.VK_LEFT) {
+
+            setPlayerPosition(-16, 0);
+
+        }
+        //Down arrow pressed move 1 tile down
+        if (k == KeyEvent.VK_DOWN) {
+
+            setPlayerPosition(0, 16);
 
 
+        }
+        //Up arrow pressed move 1 tile up
+        if (k == KeyEvent.VK_UP) {
 
-	}
-	private boolean playerEnteringNextLevel(int yMove) {
 
-		return (myChar.getY() +yMove) >= 240;
-	}
-	private void setPlayerPosition(int xMove, int yMove) {
+            setPlayerPosition(0, -16);
+        }
 
-        if(playerEnteringNextLevel(yMove)) {
+
+    }
+
+    private boolean playerEnteringNextLevel(int yMove) {
+
+        return (myChar.getY() + yMove) >= 240;
+    }
+
+    private void setPlayerPosition(int xMove, int yMove) {
+
+        if (playerEnteringNextLevel(yMove)) {
             //when you go to the next screen the new state will first be created with my char
             //and then the state is set
             gsm.addNextLevel(myChar);
@@ -117,22 +118,19 @@ public class Level1State extends GameState {
             return;
         }
 
-		if(tileMap.isBlockedTile(myChar.getX() + xMove, myChar.getY() + yMove)) {
+        if (tileMap.isBlockedTile(myChar.getX() + xMove, myChar.getY() + yMove)) {
 
-			return;
-		} else {
-			myChar.setPosition(xMove, yMove);
-		}
-	}
+            return;
+        } else {
+            myChar.setPosition(xMove, yMove);
+        }
+    }
 
-	@Override
-	public void keyReleased(int k) {
-		
-		
-		
-	}
+    @Override
+    public void keyReleased(int k) {
 
 
+    }
 
 
 }

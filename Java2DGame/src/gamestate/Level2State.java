@@ -16,116 +16,110 @@ import java.awt.event.KeyEvent;
 
 public class Level2State extends GameState {
 
-        //The tilemap of the level
-        private TileMap tileMap;
+    //The tilemap of the level
+    private TileMap tileMap;
 
 
+    //Needs to be able to hold a character
+    private Player myChar;
 
-        //Needs to be able to hold a character
-        private Player myChar;
+    private Monster[] monsters =
+            {new Bandit(16, 16, "/Tilesets/bandit.png")};
 
-        private Monster[] monsters =
-                {new Bandit(16, 16, "/Tilesets/bandit.png")};
+    public Level2State(GameStateManager gsm, Player myChar) {
 
-        public Level2State(GameStateManager gsm, Player myChar) {
+        this.gsm = gsm;
+        this.myChar = myChar;
+        init();
 
-            this.gsm = gsm;
-            this.myChar = myChar;
-            init();
+
+    }
+
+    @Override
+    public void init() {
+
+        tileMap = new TileMap(16);
+        tileMap.loadTiles("/Tilesets/TileSetNew.png");
+        tileMap.loadMap("/Maps/MapDuo.csv");
+        tileMap.setPosition(0, 0);
+
+
+    }
+
+
+    @Override
+    public void draw(Graphics2D g) {
+
+
+        //clear screen
+        g.setColor(new Color(0xaae9af));
+        g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
+
+        //draw tilemap
+        tileMap.draw(g);
+
+        //draw player
+        myChar.draw(g);
+
+        for (Monster monster : monsters) {
+            monster.draw(g);
+        }
+
+
+    }
+
+    @Override
+    public void update() {
+
+
+    }
+
+    @Override
+    public void keyPressed(int k) {
+
+        //Right arrow pressed move 1 tile to the right
+        if (k == KeyEvent.VK_RIGHT) {
+
+            setPlayerPosition(16, 0);
+
+        }
+        //Left arrow pressed move 1 to the left
+        if (k == KeyEvent.VK_LEFT) {
+
+
+            setPlayerPosition(-16, 0);
+
+        }
+        //Down arrow pressed move 1 tile down
+        if (k == KeyEvent.VK_DOWN) {
+
+
+            setPlayerPosition(0, 16);
 
 
         }
-        @Override
-        public void init() {
+        //Up arrow pressed move 1 tile up
+        if (k == KeyEvent.VK_UP) {
 
-            tileMap = new TileMap(16);
-            tileMap.loadTiles("/Tilesets/TileSetNew.png");
-            tileMap.loadMap("/Maps/MapDuo.csv");
-            tileMap.setPosition(0, 0);
-
-
-
+            setPlayerPosition(0, -16);
 
         }
+        if (k == KeyEvent.VK_R) {
 
-
-        @Override
-        public void draw(Graphics2D g) {
-
-
-
-            //clear screen
-            g.setColor(new Color(0xaae9af));
-            g.fillRect(0,0, GamePanel.WIDTH, GamePanel.HEIGHT);
-
-            //draw tilemap
-            tileMap.draw(g);
-
-            //draw player
-            myChar.draw(g);
-
-            for(Monster monster: monsters) {
-                monster.draw(g);
-            }
-
-
+            gsm.startFightState(myChar, monsters[0]);
 
         }
-
-        @Override
-        public void update() {
-
-
-
-
-        }
-
-        @Override
-        public void keyPressed(int k) {
-
-            //Right arrow pressed move 1 tile to the right
-            if (k == KeyEvent.VK_RIGHT) {
-
-                setPlayerPosition(16, 0);
-
-            }
-            //Left arrow pressed move 1 to the left
-            if (k == KeyEvent.VK_LEFT) {
-
-
-                setPlayerPosition(-16, 0);
-
-            }
-            //Down arrow pressed move 1 tile down
-            if (k == KeyEvent.VK_DOWN) {
-
-
-                setPlayerPosition(0, 16);
-
-
-            }
-            //Up arrow pressed move 1 tile up
-            if (k == KeyEvent.VK_UP) {
-
-                setPlayerPosition(0, -16);
-
-            }
-            if (k == KeyEvent.VK_R) {
-
-                gsm.startFightState(myChar, monsters[0]);
-
-            }
-        }
+    }
 
     private boolean playerEnteringNextLevel(int yMove) {
 
-        return (myChar.getY() +yMove) >= 240;
+        return (myChar.getY() + yMove) >= 240;
     }
+
     private void setPlayerPosition(int xMove, int yMove) {
 
 
-
-        if(playerEnteringNextLevel(yMove)) {
+        if (playerEnteringNextLevel(yMove)) {
             //when you go to the next screen the new state will first be created with my char
             //and then the state is set
             gsm.addNextLevel(myChar);
@@ -134,7 +128,7 @@ public class Level2State extends GameState {
 
         }
 
-        if(tileMap.isBlockedTile(myChar.getX() + xMove, myChar.getY() + yMove)) {
+        if (tileMap.isBlockedTile(myChar.getX() + xMove, myChar.getY() + yMove)) {
 
             return;
         } else {
@@ -142,11 +136,11 @@ public class Level2State extends GameState {
         }
     }
 
-        @Override
-        public void keyReleased(int k) {
+    @Override
+    public void keyReleased(int k) {
 
 
-        }
+    }
 
 }
 

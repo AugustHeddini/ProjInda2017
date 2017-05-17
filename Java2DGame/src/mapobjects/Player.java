@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 public class Player {
 
@@ -13,6 +14,10 @@ public class Player {
     public static final int WIDTH = 16;
     public static final int HEIGHT = 16;
     public static final int SCALE = 8;
+
+    public static final int MISS = 0;
+    public static final int HIT = 10;
+    public static final int CRITICAL = 25;
 
     //position of the player
     private int x;
@@ -25,12 +30,15 @@ public class Player {
     //image of player
     private BufferedImage image;
 
+    private Random random;
+
 
     public Player(int x, int y) {
 
         //set the original pos
         this.x = x;
         this.y = y;
+        random = new Random();
         init();
 
 
@@ -45,7 +53,7 @@ public class Player {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        image = tempImage.getSubimage(0,0, (WIDTH - 6)*SCALE, HEIGHT*SCALE);
+        image = tempImage.getSubimage(0, 0, (WIDTH - 6) * SCALE, HEIGHT * SCALE);
 
     }
 
@@ -57,6 +65,7 @@ public class Player {
 
     /**
      * sets a new position based on what key was pressed
+     *
      * @param x
      * @param y
      */
@@ -66,6 +75,7 @@ public class Player {
         this.x += x;
         this.y += y;
     }
+
     public void setNewPosition(int x, int y) {
 
         this.x = x;
@@ -78,39 +88,65 @@ public class Player {
     public boolean wasCollision() {
 
 
-
-
         return false;
     }
+
     /**
      * Finds out if the character has gone off screen
      */
     public boolean outOfBounds() {
 
         //touches the left wall
-        if(x < 0) {
+        if (x < 0) {
             return true;
         }
 
         //touches the right wall
-        if(x > GamePanel.WIDTH - WIDTH) {
+        if (x > GamePanel.WIDTH - WIDTH) {
             return true;
         }
         //touches the ceiling of map
-        if(y < 0) {
+        if (y < 0) {
             return true;
         }
         //touches the floor of map
-        if(y > GamePanel.HEIGHT - HEIGHT) {
+        if (y > GamePanel.HEIGHT - HEIGHT) {
             return true;
         }
         return false;
     }
-    public int getX() {return x;}
-    public int getY() {return y;}
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     public boolean hasEncountered() {
         return true;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public int attack() {
+
+        int missOrHit = random.nextInt(3);
+
+        if (missOrHit == 0) {
+            return MISS;
+        }
+        if (missOrHit == 1) {
+            return HIT;
+        } else {
+            return CRITICAL;
+        }
+    }
+
+    public void damaged(int dmg) {
+        health -= dmg;
+    }
 }

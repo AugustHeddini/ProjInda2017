@@ -13,11 +13,10 @@ import java.awt.event.KeyEvent;
 /**
  * Created by johan on 2017-05-17.
  */
-public class Level3State extends GameState{
+public class Level3State extends GameState {
 
     //The tilemap of the level
     private TileMap tileMap;
-
 
 
     //Needs to be able to hold a character
@@ -25,7 +24,7 @@ public class Level3State extends GameState{
 
     private Monster[] monsters =
             {new Bandit(16, 16, "/Tilesets/bandit.png"),
-            new Wizard(240, 24, "/Tilesets/wizard.jpg")};
+                    new Wizard(240, 32, "/Tilesets/wizard.jpg")};
 
     public Level3State(GameStateManager gsm, Player myChar) {
 
@@ -35,6 +34,7 @@ public class Level3State extends GameState{
 
 
     }
+
     @Override
     public void init() {
 
@@ -44,18 +44,15 @@ public class Level3State extends GameState{
         tileMap.setPosition(0, 0);
 
 
-
-
     }
 
     @Override
     public void draw(Graphics2D g) {
 
 
-
         //clear screen
         g.setColor(new Color(0xaae9af));
-        g.fillRect(0,0, GamePanel.WIDTH, GamePanel.HEIGHT);
+        g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 
         //draw tilemap
         tileMap.draw(g);
@@ -63,18 +60,15 @@ public class Level3State extends GameState{
         //draw player
         myChar.draw(g);
 
-        for(Monster monster: monsters) {
+        for (Monster monster : monsters) {
             monster.draw(g);
         }
-
 
 
     }
 
     @Override
     public void update() {
-
-
 
 
     }
@@ -119,7 +113,7 @@ public class Level3State extends GameState{
     private void setPlayerPosition(int xMove, int yMove) {
 
 
-        if(tileMap.isBlockedTile(myChar.getX() + xMove, myChar.getY() + yMove)) {
+        if (tileMap.isBlockedTile(myChar.getX() + xMove, myChar.getY() + yMove)) {
 
             return;
         } else {
