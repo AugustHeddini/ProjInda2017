@@ -5,7 +5,10 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import game.GamePanel;
 import tilemap.Background;
+
+import javax.swing.*;
 
 public class MenuState extends GameState {
 	
@@ -27,8 +30,8 @@ public class MenuState extends GameState {
 		this.gsm = gsm;
 		
 		try {
-			bg = new Background("/Backgrounds/map.png", 1);
-			bg.setVector(-0.1,  0);
+			bg = new Background("/Backgrounds/garden.png", 1);
+			bg.setVector(-0.1,   0);
 			
 			titleColor = Color.BLACK;
 			titleFont = new Font("Century Gothic", Font.BOLD, 28);
@@ -55,20 +58,23 @@ public class MenuState extends GameState {
 		//draw title
 		g.setColor(titleColor);
 		g.setFont(titleFont);
-		g.drawString("Spooky Dungeon", 30, 50);
+		g.drawString("Wizard's Garden", 30, 50);
 		
 		//draw menu options
 		g.setFont(font);
 		for(int i = 0; i < options.length; i++) {
 			
 			if(i == currentChoice) {
-				g.setColor(Color.BLACK);
-			} else {
 				g.setColor(Color.RED);
+			} else {
+				g.setColor(Color.BLACK);
 			}
 			
 			g.drawString(options[i], 145, 140 + i*15);
 		}
+
+		//JTextField text = new JTextField("Enter name here");
+		//g.draw
 	}
 
 	@Override
@@ -82,7 +88,7 @@ public class MenuState extends GameState {
 		
 		if(currentChoice == 0) {
 			//picked start
-			gsm.setState(1);
+			gsm.setState(gsm.LEVEL1STATE);
 			
 		}
 		if(currentChoice == 1) {

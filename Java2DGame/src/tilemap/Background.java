@@ -34,6 +34,10 @@ public class Background {
 		this.x = (x * moveScale) % GamePanel.WIDTH;
 		this.y = (y * moveScale) % GamePanel.HEIGHT;
 	}
+	public void incrementPosition(double incX, double incY) {
+		x += incX;
+		y += incY;
+	}
 	
 	public void setVector(double dx, double dy) {
 		
@@ -56,6 +60,13 @@ public class Background {
 		}
 		if(x > 0 ) {
 			g.drawImage(image, (int) x - GamePanel.WIDTH, (int) y, null);
+		}
+
+		if(y < 0) {
+			g.drawImage(image, (int) x, (int) y + GamePanel.HEIGHT, null);
+		}
+		if(y > 0) {
+			g.drawImage(image, (int) x, (int) y - GamePanel.HEIGHT, null);
 		}
 	}
 }
