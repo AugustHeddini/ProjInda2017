@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="2" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="Tilese" tilewidth="16" tileheight="16" spacing="1" tilecount="522" columns="29">
+  <image source="../../../../../../Downloads/roguelike-cave-pack/Spritesheet/roguelikeDungeon_magenta.png" width="492" height="305"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="10" height="2">
+  <data encoding="csv">
+68,100,246,245,326,321,507,508,180,88,
+216,217,71,72,1,2,3,4,5,6
+</data>
+ </layer>
+</map>
