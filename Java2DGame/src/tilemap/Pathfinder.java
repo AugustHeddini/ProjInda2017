@@ -52,6 +52,8 @@ public class Pathfinder {
      */
     public int findPath(int cx, int cy, int tx, int ty) {
 
+
+
         // Lägger till alla tile-platser i nodes.
         for (int x = 0; x < tileMap.getNumXTiles(); x++) {
             for (int y = 0; y < tileMap.getNumYTiles(); y++) {

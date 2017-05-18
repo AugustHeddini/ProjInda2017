@@ -43,7 +43,7 @@ public class Wizard implements Monster {
 
         this.x = x;
         this.y = y;
-        health = 100;
+        health = 75;
         random = new Random();
         init(path);
 
@@ -113,26 +113,35 @@ public class Wizard implements Monster {
 
     public void pathFind(int targetX, int targetY) {
 
-        // Placeholder to trigger an attack at melee range
-        if ( (abs(targetX/16 - x/16) + abs(targetY/16 - y/16)) == 1) {
-            attack();
+        if((abs(targetX/16 - x/16) + abs(targetY/16 - y/16)) == 0) {
+            return;
         } else {
-            //pathfinding
-            int dir = finder.findPath(x/16, y/16, targetX/16, targetY/16);
+            // Placeholder to trigger an attack at melee range
+            if ((abs(targetX / 16 - x / 16) + abs(targetY / 16 - y / 16)) == 1) {
+                attack();
+            } else {
+                //pathfinding
+                int dir = finder.findPath(x / 16, y / 16, targetX / 16, targetY / 16);
 
-            switch (dir) {
-                case 0: setPosition(0, -16);
-                    break;
-                case 1: setPosition(0, 16);
-                    break;
-                case 2: setPosition(-16, 0);
-                    break;
-                case 3: setPosition(16, 0);
-                    break;
-                case 4:
-                    break;
-                default: System.out.println("Error in pathfinding");
-                    break;
+                switch (dir) {
+                    case 0:
+                        setPosition(0, -16);
+                        break;
+                    case 1:
+                        setPosition(0, 16);
+                        break;
+                    case 2:
+                        setPosition(-16, 0);
+                        break;
+                    case 3:
+                        setPosition(16, 0);
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        System.out.println("Error in pathfinding");
+                        break;
+                }
             }
         }
 

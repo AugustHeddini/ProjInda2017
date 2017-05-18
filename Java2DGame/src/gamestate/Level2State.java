@@ -4,6 +4,7 @@ import mapobjects.Bandit;
 import mapobjects.Monster;
 import mapobjects.Player;
 import game.GamePanel;
+import tilemap.Pathfinder;
 import tilemap.TileMap;
 
 import java.awt.*;
@@ -24,10 +25,12 @@ public class Level2State extends GameState {
     private Player myChar;
 
     private Monster[] monsters =
-            {new Bandit(16, 16, "/Tilesets/bandit.png"),
-            new Bandit(16, 16*10, "/Tilesets/bandit.png")};
+            {new Bandit(16, 16, "/Tilesets/Bandit.png"),
+            new Bandit(16, 16*10, "/Tilesets/Bandit.png")};
 
     private int battleMonster;
+
+    private Pathfinder finder;
 
     public Level2State(GameStateManager gsm, Player myChar) {
 
@@ -45,6 +48,13 @@ public class Level2State extends GameState {
         tileMap.loadTiles("/Tilesets/TileSetNew.png");
         tileMap.loadMap("/Maps/MapDuo.csv");
         tileMap.setPosition(0, 0);
+
+        finder = new Pathfinder(tileMap);
+
+        for(Monster monster: monsters) {
+
+            monster.setFinder(finder);
+        }
 
 
     }
@@ -109,6 +119,11 @@ public class Level2State extends GameState {
             setPlayerPosition(0, -16);
             myChar.setFacingDirection(0);
 
+        }
+        for(Monster monster: monsters) {
+            if(monster != null) {
+                monster.pathFind(myChar.getX(), myChar.getY());
+            }
         }
 
     }

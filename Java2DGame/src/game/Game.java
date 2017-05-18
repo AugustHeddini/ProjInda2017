@@ -7,7 +7,7 @@ public class Game {
 
     public static void main(String[] args) {
 
-        JFrame window = new JFrame("Spooky Dungeon");
+        JFrame window = new JFrame("Wizards Garden");
         //Set the JPanel inside the frame
         window.setContentPane(new GamePanel());
         //set exit when close is hit

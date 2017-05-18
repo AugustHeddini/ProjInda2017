@@ -5,6 +5,7 @@ import mapobjects.Monster;
 import mapobjects.Player;
 import mapobjects.Wizard;
 import game.GamePanel;
+import tilemap.Pathfinder;
 import tilemap.TileMap;
 
 import java.awt.*;
@@ -23,11 +24,13 @@ public class Level3State extends GameState {
     private Player myChar;
 
     private Monster[] monsters =
-                    {new Bandit(16, 16, "/Tilesets/bandit.png"),
-                            new Bandit(16*5, 16*10,"/Tilesets/bandit.png" ),
+                    {new Bandit(16, 16, "/Tilesets/Bandit.png"),
+                            new Bandit(16*5, 16*10,"/Tilesets/Bandit.png" ),
                     new Wizard(16*16, 16*3, "/Tilesets/characters.png")};
 
     private int battleMonster;
+
+    private Pathfinder finder;
 
     public Level3State(GameStateManager gsm, Player myChar) {
 
@@ -46,6 +49,11 @@ public class Level3State extends GameState {
         tileMap.loadMap("/Maps/MapTrio.csv");
         tileMap.setPosition(0, 0);
 
+        finder = new Pathfinder(tileMap);
+
+        for(int i = 0; i < 2; i++) {
+            monsters[i].setFinder(finder);
+        }
 
     }
 
@@ -118,11 +126,16 @@ public class Level3State extends GameState {
             myChar.setFacingDirection(0);
 
         }
+        for(int i = 0; i < 2; i++) {
+            if(monsters[i] != null) {
+                monsters[i].pathFind(myChar.getX(), myChar.getY());
+            }
+        }
     }
 
     private void setPlayerPosition(int xMove, int yMove) {
 
-        if(myChar.getX() + xMove <= 0 || myChar.getY() + yMove <= 0) {
+        if(myChar.getX() + xMove < 0 || myChar.getY() + yMove < 0) {
             return;
         }
         if (tileMap.isBlockedTile(myChar.getX() + xMove, myChar.getY() + yMove)) {
