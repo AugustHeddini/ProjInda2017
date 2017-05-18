@@ -14,5 +14,7 @@ public interface Monster {
     void draw(java.awt.Graphics2D g);
     void pathFind(int x, int y);
     void setFinder(Pathfinder finder);
+    void dealDMG(int value);
+    int getHealth();
 
 }

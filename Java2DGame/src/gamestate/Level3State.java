@@ -70,11 +70,10 @@ public class Level3State extends GameState{
         myChar.draw(g);
 
         for(Monster monster: monsters) {
-            monster.draw(g);
+            if(monster.getHealth() > 0) {
+                monster.draw(g);
+            }
         }
-
-
-
     }
 
     @Override
@@ -90,44 +89,64 @@ public class Level3State extends GameState{
 
         //Right arrow pressed move 1 tile to the right
         if (k == KeyEvent.VK_RIGHT) {
-
-            setPlayerPosition(16, 0);
-
+            if (myChar.getCurrDirection() == 3) {
+                setPlayerPosition(16, 0);
+                myChar.setFacingDirection(3);
+                actMonsterTurn();
+            } else {
+                myChar.setFacingDirection(3);
+            }
         }
         //Left arrow pressed move 1 to the left
         if (k == KeyEvent.VK_LEFT) {
 
-
-            setPlayerPosition(-16, 0);
-
+            if (myChar.getCurrDirection() == 2) {
+                setPlayerPosition(-16, 0);
+                myChar.setFacingDirection(2);
+                actMonsterTurn();
+            } else {
+                myChar.setFacingDirection(2);
+            }
         }
         //Down arrow pressed move 1 tile down
         if (k == KeyEvent.VK_DOWN) {
 
-
-            setPlayerPosition(0, 16);
-
-
+            if ( myChar.getCurrDirection() == 1) {
+                setPlayerPosition(0, 16);
+                myChar.setFacingDirection(1);
+            } else {
+                myChar.setFacingDirection(1);
+            }
         }
         //Up arrow pressed move 1 tile up
         if (k == KeyEvent.VK_UP) {
 
-            setPlayerPosition(0, -16);
-
+            if (myChar.getCurrDirection() == 0) {
+                setPlayerPosition(0, -16);
+                myChar.setFacingDirection(0);
+            } else {
+                myChar.setFacingDirection(0);
+            }
         }
         if (k == KeyEvent.VK_R) {
 
             gsm.startFightState(myChar, monsters[0]);
 
         }
-        // The monster's turn
+        if (k == KeyEvent.VK_Z) {
+
+            myChar.attack(myChar.getCurrDirection(), monsters);
+        }
+    }
+
+    private void actMonsterTurn() {
+        //The monster's turn
         for(Monster monster: monsters) {
             monster.pathFind(myChar.getX(), myChar.getY());
         }
     }
 
     private void setPlayerPosition(int xMove, int yMove) {
-
 
         if(tileMap.isBlockedTile(myChar.getX() + xMove, myChar.getY() + yMove)) {
 
@@ -142,5 +161,4 @@ public class Level3State extends GameState{
 
 
     }
-
 }

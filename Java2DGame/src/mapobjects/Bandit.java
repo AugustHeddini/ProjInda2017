@@ -40,7 +40,7 @@ public class Bandit implements Monster {
         this.y = y;
         this.path = path;
 
-        health = 50;
+        health = 30;
         init();
     }
     public void init() {
@@ -97,6 +97,14 @@ public class Bandit implements Monster {
 
     public void attack() {
 
+    }
+
+    public void dealDMG(int value) {
+        this.health -= value;
+    }
+
+    public int getHealth() {
+        return health;
     }
 
     @Override

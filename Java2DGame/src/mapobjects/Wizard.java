@@ -55,6 +55,18 @@ public class Wizard implements Monster {
 
     }
 
+    public void attack() {
+
+    }
+
+    public void dealDMG(int value) {
+
+    }
+
+    public int getHealth(){
+        return health;
+    }
+
     @Override
     public int getX() {
         return x;

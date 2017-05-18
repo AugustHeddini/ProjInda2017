@@ -30,6 +30,7 @@ public class TileMap {
 	private int numColumns;
 	private int width;
 	private int height;
+	private boolean[][] occupied;
 	
 	//Tileset
 	private BufferedImage tileSet;
@@ -50,6 +51,7 @@ public class TileMap {
 		numRowsToDraw = 240/tileSize ;
 		numColonsToDraw = 320/tileSize ;
 		blocked = new HashMap<>();
+		occupied = new boolean[numColonsToDraw][numRowsToDraw];
 	}
 	
 	/**
@@ -126,6 +128,13 @@ public class TileMap {
 
 				e.printStackTrace();
 			}
+
+			// Set up occupied
+			for (int x = 0; x < numColonsToDraw; x++) {
+			    for (int y = 0; y < numRowsToDraw; y++) {
+			        occupied[x][y] = false;
+                }
+            }
 	}
 	
 	public int getTileSize() {
@@ -161,6 +170,20 @@ public class TileMap {
 		}
 		return false;
 	}
+
+	// metoder för ockuperingshantering
+	public boolean isOccupied(int x, int y) {
+	    return occupied[x][y];
+    }
+
+    public void moveOccupied(int cx, int cy, int tx, int ty) {
+	    occupied[cx][cy] = false;
+	    occupied[tx][ty] = true;
+    }
+
+    public void setOccupied(int x, int y) {
+	    occupied[x][y] = true;
+    }
 	
 	public void setPosition(double x, double y) {
 		

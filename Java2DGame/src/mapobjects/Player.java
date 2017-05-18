@@ -1,11 +1,13 @@
 package mapobjects;
 
 import game.GamePanel;
+import tilemap.TileMap;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 public class Player {
 
@@ -14,7 +16,12 @@ public class Player {
     public static final int HEIGHT = 16;
     public static final int SCALE = 8;
     public static final String[] DIRECTIONS = {"UP", "DOWN", "LEFT", "RIGHT"};
-    public static int CURR_DIRECTION = 1;
+    private static int CURR_DIRECTION = 1;
+
+    // values for attack
+    public static int MISS = 0;
+    public static int HIT = 15;
+    private Random rnd = new Random();
 
     //position of the player
     private int x;
@@ -35,7 +42,6 @@ public class Player {
         this.y = y;
         init();
 
-
     }
 
     public void init() {
@@ -51,6 +57,55 @@ public class Player {
 
     }
 
+    public void attack(int dir, Monster[] monsters) {
+
+        int ax = 0;
+        int ay = 0;
+        switch (dir) {
+            case 0:
+                ax = x;
+                ay = y - 16;
+                break;
+            case 1:
+                ax = x;
+                ay = y + 16;
+                break;
+            case 2:
+                ax = x - 16;
+                ay = y;
+                break;
+            case 3:
+                ax = x + 16;
+                ay = y;
+                break;
+            default:
+                ax = -1;
+                ay = -1;
+                break;
+        }
+
+        for (Monster monster: monsters) {
+            if (monster.getX() == ax && monster.getY() == ay) {
+                int hit = rnd.nextInt(3);
+                switch (hit) {
+                    case 0:
+                        monster.dealDMG(MISS);
+                        break;
+                    case 1:
+                        monster.dealDMG(HIT + 4 - rnd.nextInt(9));
+                        break;
+                    case 2:
+                        monster.dealDMG((HIT + 4 - rnd.nextInt(9))*2);
+                        break;
+                    default:
+                        monster.dealDMG(MISS);
+                }
+            }
+        }
+        System.out.println("Player position: x = " + x/16 + " y = " + y/16 + " Dir: " + CURR_DIRECTION);
+        System.out.println("Attacked at: x = " + ax/16 + " y = " + ay/16);
+    }
+
     public void draw(Graphics2D g) {
 
 
@@ -63,7 +118,6 @@ public class Player {
      * @param y
      */
     public void setPosition(int x, int y) {
-
 
         this.x += x;
         this.y += y;
@@ -121,6 +175,10 @@ public class Player {
     }
     public int getX() {return x;}
     public int getY() {return y;}
+
+    public int getCurrDirection() {
+        return CURR_DIRECTION;
+    }
 
     public boolean hasEncountered() {
         return true;
