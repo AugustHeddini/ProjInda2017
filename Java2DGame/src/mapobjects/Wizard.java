@@ -1,5 +1,7 @@
 package mapobjects;
 
+import tilemap.Pathfinder;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -43,6 +45,14 @@ public class Wizard implements Monster {
             e.printStackTrace();
         }
         image = tempImage.getSubimage(0,0, WIDTH, HEIGHT);
+    }
+
+    public void setFinder(Pathfinder finder) {
+
+    }
+
+    public void pathFind(int targetX, int targetY) {
+
     }
 
     @Override

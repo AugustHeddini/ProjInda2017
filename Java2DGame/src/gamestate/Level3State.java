@@ -5,6 +5,7 @@ import mapobjects.Monster;
 import mapobjects.Player;
 import mapobjects.Wizard;
 import game.GamePanel;
+import tilemap.Pathfinder;
 import tilemap.TileMap;
 
 import java.awt.*;
@@ -17,6 +18,8 @@ public class Level3State extends GameState{
 
     //The tilemap of the level
     private TileMap tileMap;
+
+    private Pathfinder finder;
 
 
 
@@ -43,8 +46,11 @@ public class Level3State extends GameState{
         tileMap.loadMap("/Maps/MapTrio.csv");
         tileMap.setPosition(0, 0);
 
+        finder = new Pathfinder(tileMap);
 
-
+        for(Monster monster: monsters) {
+            monster.setFinder(finder);
+        }
 
     }
 
@@ -113,6 +119,10 @@ public class Level3State extends GameState{
 
             gsm.startFightState(myChar, monsters[0]);
 
+        }
+        // The monster's turn
+        for(Monster monster: monsters) {
+            monster.pathFind(myChar.getX(), myChar.getY());
         }
     }
 

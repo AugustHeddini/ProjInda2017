@@ -13,6 +13,8 @@ public class Player {
     public static final int WIDTH = 16;
     public static final int HEIGHT = 16;
     public static final int SCALE = 8;
+    public static final String[] DIRECTIONS = {"UP", "DOWN", "LEFT", "RIGHT"};
+    public static int CURR_DIRECTION = 1;
 
     //position of the player
     private int x;
@@ -73,11 +75,22 @@ public class Player {
     }
 
     /**
+     * Sets the direction the player is facing, allowing for interaction checks.
+     * @param direction the index value of the desired direction in DIRECTIONS
+     */
+    public void setFacingDirection(int direction) {
+        if (!(direction >= 0 && direction < DIRECTIONS.length)) {
+            System.out.println("Invalid direction input");
+        } else {
+            CURR_DIRECTION = direction;
+        }
+
+    }
+
+    /**
      * find out if there was a collision with blocked wall
      */
     public boolean wasCollision() {
-
-
 
 
         return false;
@@ -112,5 +125,4 @@ public class Player {
     public boolean hasEncountered() {
         return true;
     }
-
 }

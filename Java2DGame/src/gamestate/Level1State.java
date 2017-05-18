@@ -26,7 +26,6 @@ public class Level1State extends GameState {
 		this.gsm = gsm;
 		
 		init();
-		
 
 	}
 	@Override
@@ -44,8 +43,6 @@ public class Level1State extends GameState {
 	@Override
 	public void draw(Graphics2D g) {
 
-
-
 		//clear screen
 		g.setColor(new Color(0xaae9af));
 		g.fillRect(0,0,GamePanel.WIDTH, GamePanel.HEIGHT);
@@ -55,10 +52,6 @@ public class Level1State extends GameState {
 
 		//draw player
 		myChar.draw(g);
-
-
-
-
 	
 	}
 
@@ -66,8 +59,6 @@ public class Level1State extends GameState {
 	public void update() {
 
 
-
-		
 		
 	}
 
@@ -78,26 +69,29 @@ public class Level1State extends GameState {
 		if(k == KeyEvent.VK_RIGHT) {
 
 			setPlayerPosition(16, 0);
+            myChar.setFacingDirection(3);
 
 		}
 		//Left arrow pressed move 1 to the left
 		if(k == KeyEvent.VK_LEFT) {
 
 			setPlayerPosition(-16, 0);
+            myChar.setFacingDirection(2);
 
 		}
 		//Down arrow pressed move 1 tile down
 		if(k == KeyEvent.VK_DOWN) {
 
 			setPlayerPosition(0, 16);
-
+            myChar.setFacingDirection(1);
 
 		}
 		//Up arrow pressed move 1 tile up
 		if(k == KeyEvent.VK_UP) {
 
-
 			setPlayerPosition(0, -16);
+            myChar.setFacingDirection(0);
+
 		}
 
 
@@ -105,7 +99,7 @@ public class Level1State extends GameState {
 	}
 	private boolean playerEnteringNextLevel(int yMove) {
 
-		return (myChar.getY() +yMove) >= 240;
+		return (myChar.getY() + yMove) >= 240;
 	}
 	private void setPlayerPosition(int xMove, int yMove) {
 
@@ -127,12 +121,5 @@ public class Level1State extends GameState {
 
 	@Override
 	public void keyReleased(int k) {
-		
-		
-		
 	}
-
-
-
-
 }

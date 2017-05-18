@@ -1,9 +1,14 @@
 package mapobjects;
 
+import tilemap.Pathfinder;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.nio.file.Path;
+
+import static java.lang.Math.abs;
 
 /**
  * Created by johan on 2017-05-16.
@@ -26,11 +31,15 @@ public class Bandit implements Monster {
     //stats
     private int health;
 
+    // Pathfinder
+    private Pathfinder finder;
+
     public Bandit(int x, int y, String path) {
 
         this.x = x;
         this.y = y;
         this.path = path;
+
         health = 50;
         init();
     }
@@ -44,6 +53,12 @@ public class Bandit implements Monster {
         }
         image = tempImage.getSubimage(0,0, WIDTH, HEIGHT);
     }
+
+    public void setFinder(Pathfinder finder) {
+        this.finder = finder;
+    }
+
+
     @Override
     public int getX() {
         return x;
@@ -54,13 +69,48 @@ public class Bandit implements Monster {
         return y;
     }
 
+    public void pathFind(int targetX, int targetY) {
+
+        // Placeholder to trigger an attack at melee range
+        if ( (abs(targetX/16 - x/16) + abs(targetY/16 - y/16)) == 1) {
+            attack();
+        } else {
+            //pathfinding
+            int dir = finder.findPath(x/16, y/16, targetX/16, targetY/16);
+
+            switch (dir) {
+                case 0: setPosition(0, -16);
+                    break;
+                case 1: setPosition(0, 16);
+                    break;
+                case 2: setPosition(-16, 0);
+                    break;
+                case 3: setPosition(16, 0);
+                    break;
+                case 4:
+                    break;
+                default: System.out.println("Error in pathfinding");
+                    break;
+            }
+        }
+    }
+
+    public void attack() {
+
+    }
+
     @Override
     public void setPosition(int x, int y) {
+        this.x += x;
+        this.y += y;
+    }
+    public void setNewPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    public void draw(Graphics2D g) {
 
+
+    public void draw(Graphics2D g) {
 
         g.drawImage(image, x, y, WIDTH, HEIGHT, null);
     }

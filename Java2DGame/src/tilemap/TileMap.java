@@ -27,7 +27,7 @@ public class TileMap {
 	private int[][] map;
 	private int tileSize;
 	private int numRows;
-	private int numColons;
+	private int numColumns;
 	private int width;
 	private int height;
 	
@@ -50,7 +50,6 @@ public class TileMap {
 		numRowsToDraw = 240/tileSize ;
 		numColonsToDraw = 320/tileSize ;
 		blocked = new HashMap<>();
-
 	}
 	
 	/**
@@ -70,41 +69,31 @@ public class TileMap {
 			//import the tileset
 			BufferedImage subImage;
 			for(int col = 0; col < numTilesAcross; col++ ) {
-				
-
 
 				for(int j = 0; j < 2; j++) {
 					subImage = tileSet.getSubimage(col * tileSize,j*tileSize , tileSize, tileSize);
 					tiles[j][col] = new Tile(subImage, j);
-
 				}
-				
 			}
-			
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	/**
 	 * Loads the map file into memory
 	 */
 	public void loadMap(String s) {
-		
-
 
 			try {
 
 				InputStream in = getClass().getResourceAsStream(s);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
-				numColons = 20;
+				numColumns = 20;
 				numRows = 15;
-				map = new int[numRows][numColons];
-				width = numColons * tileSize;
+				map = new int[numRows][numColumns];
+				width = numColumns * tileSize;
 				height = numRows * tileSize;
-
 
 				xMin = GamePanel.WIDTH - width;
 				xMax = 0;
@@ -118,7 +107,7 @@ public class TileMap {
 					String line = br.readLine();
 					//split by whitespace
 					String[] tokens = line.split(delims);
-					for (int cols = 0; cols < numColons; cols++) {
+					for (int cols = 0; cols < numColumns; cols++) {
 						map[row][cols] += Integer.parseInt(tokens[cols]);
 
                         if(map[row][cols] != 0 && map[row][cols] != 1 && map[row][cols] != 17) {
@@ -131,17 +120,12 @@ public class TileMap {
 
                         }
                     }
-
-
                 }
-
 
 			} catch (Exception e) {
 
 				e.printStackTrace();
 			}
-
-		
 	}
 	
 	public int getTileSize() {
@@ -159,16 +143,23 @@ public class TileMap {
 	public int getHeight() {
 		return height;
 	}
+	public int getNumXTiles() {
+        return numColumns;
+    }
+    public int getNumYTiles() {
+        return numRows;
+    }
 
 	public boolean isBlockedTile(int xpos, int ypos) {
 
-
+		/**
+		 * DET VERKAR FINNAS EN BUG HÄR NÄR PLAYER POSITION ÄR 0, 0 - GER ArrayIndexOutOfBoundsException: -1
+		 * Kollisionen verkar dock fortf fungera. ??
+		 */
 		if( (blocked.get(map[ypos/tileSize][xpos/tileSize])) == Tile.BLOCKED) {
 			return true;
 		}
-
 		return false;
-
 	}
 	
 	public void setPosition(double x, double y) {
@@ -191,15 +182,13 @@ public class TileMap {
 	
 	public void draw(Graphics2D g) {
 
-
-
 		for(int row = rowOffSet; row < rowOffSet + numRowsToDraw; row ++) {
 			
 			if(row >= numRows) break;
 			
 			for(int col = colonOffSet; col < colonOffSet + numColonsToDraw; col++) {
 				
-				if(col >= numColons) break;
+				if(col >= numColumns) break;
 				
 				//if the image with tiles is empty at that position dont bother drawing it
 				//if(map[row][col] == 0) continue;
@@ -209,16 +198,10 @@ public class TileMap {
 				//find out which tile it is
 				int r = rc / numTilesAcross;
 				int c = rc % numTilesAcross;
-
-
 				
 				g.drawImage(tiles[r][c].getImage(), (int) x +col*tileSize, (int) y + row*tileSize, null);
-				
-				
+
 			}
 		}
 	}
-	
-	
-
 }

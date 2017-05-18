@@ -4,6 +4,7 @@ import mapobjects.Bandit;
 import mapobjects.Monster;
 import mapobjects.Player;
 import game.GamePanel;
+import tilemap.Pathfinder;
 import tilemap.TileMap;
 
 import java.awt.*;
@@ -19,7 +20,7 @@ public class Level2State extends GameState {
         //The tilemap of the level
         private TileMap tileMap;
 
-
+        private Pathfinder finder;
 
         //Needs to be able to hold a character
         private Player myChar;
@@ -33,8 +34,8 @@ public class Level2State extends GameState {
             this.myChar = myChar;
             init();
 
-
         }
+
         @Override
         public void init() {
 
@@ -43,16 +44,15 @@ public class Level2State extends GameState {
             tileMap.loadMap("/Maps/MapDuo.csv");
             tileMap.setPosition(0, 0);
 
+            finder = new Pathfinder(tileMap);
 
-
-
+            for(Monster monster: monsters) {
+                monster.setFinder(finder);
+            }
         }
-
 
         @Override
         public void draw(Graphics2D g) {
-
-
 
             //clear screen
             g.setColor(new Color(0xaae9af));
@@ -67,15 +67,10 @@ public class Level2State extends GameState {
             for(Monster monster: monsters) {
                 monster.draw(g);
             }
-
-
-
         }
 
         @Override
         public void update() {
-
-
 
 
         }
@@ -115,12 +110,18 @@ public class Level2State extends GameState {
                 gsm.startFightState(myChar, monsters[0]);
 
             }
+
+            //The monster's turn
+            for(Monster monster: monsters) {
+                monster.pathFind(myChar.getX(), myChar.getY());
+            }
         }
 
     private boolean playerEnteringNextLevel(int yMove) {
 
         return (myChar.getY() +yMove) >= 240;
     }
+
     private void setPlayerPosition(int xMove, int yMove) {
 
 
@@ -147,7 +148,6 @@ public class Level2State extends GameState {
 
 
         }
-
 }
 
 

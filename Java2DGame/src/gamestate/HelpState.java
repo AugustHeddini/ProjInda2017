@@ -26,7 +26,7 @@ public class HelpState extends GameState {
         this.gsm = gsm;
 
         try {
-            bg = new Background("/Backgrounds/menubg.gif", 1);
+            bg = new Background("/Backgrounds/garden.png", 1);
             bg.setVector(-0.1,  0);
 
             titleColor = Color.BLACK;
@@ -75,7 +75,7 @@ public class HelpState extends GameState {
         // Framework is here for an options menu
         if(currentChoice == 0) {
             //picked back
-            gsm.setState(0);
+            gsm.setState(gsm.MENUSTATE);
 
         }
     }
