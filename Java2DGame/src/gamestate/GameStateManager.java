@@ -35,7 +35,6 @@ public class GameStateManager {
 		
 		currentState = state;
 
-		
 	}
 	public GameState getState(int state) {
 		return gameStates.get(state);
@@ -80,5 +79,4 @@ public class GameStateManager {
 			return;
 		}
 	}
-
 }
