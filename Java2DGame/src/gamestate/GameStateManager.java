@@ -3,14 +3,13 @@ package gamestate;
 import mapobjects.Monster;
 import mapobjects.Player;
 
-
 import java.util.ArrayList;
 
 public class GameStateManager {
 	
 	private ArrayList<GameState> gameStates;
 	private int currentState;
-	
+
 	public static final int MENUSTATE = 0;
 	public static final int LEVEL1STATE = 1;
     public static final int HELPSTATE = 2;
@@ -29,6 +28,7 @@ public class GameStateManager {
 		gameStates.add(new MenuState(this));
 		gameStates.add(new Level1State(this));
         gameStates.add(new HelpState(this));
+
 	}
 
 	public void setState(int state) {
