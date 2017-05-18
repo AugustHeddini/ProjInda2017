@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import mapobjects.Bandit;
 import mapobjects.Monster;
 import mapobjects.Player;
 import game.GamePanel;
 import mapobjects.Wizard;
+import tilemap.Pathfinder;
 import tilemap.TileMap;
 
 public class Level1State extends GameState {
@@ -20,8 +22,12 @@ public class Level1State extends GameState {
     private Player myChar;
 
     private Monster[] monsters = {
-            new Wizard(16, 16, "/Tilesets/characters.png"),
+            new Bandit(16*17, 16*3, "/Tilesets/Bandit.png"),
     };
+
+    private int battleMonster;
+
+    private Pathfinder finder;
 
     public Level1State(GameStateManager gsm) {
 
@@ -42,6 +48,12 @@ public class Level1State extends GameState {
 
         myChar = new Player(32, 32);
 
+        finder = new Pathfinder(tileMap);
+
+        for(Monster monster: monsters) {
+            monster.setFinder(finder);
+        }
+
     }
 
     @Override
@@ -59,7 +71,9 @@ public class Level1State extends GameState {
         myChar.draw(g);
 
         for (Monster monster : monsters) {
-            monster.draw(g);
+            if(monster != null) {
+                monster.draw(g);
+            }
         }
 
 
@@ -68,41 +82,44 @@ public class Level1State extends GameState {
     @Override
     public void update() {
 
+        removeDeadMonster();
 
     }
-
     @Override
     public void keyPressed(int k) {
 
         //Right arrow pressed move 1 tile to the right
-        if (k == KeyEvent.VK_RIGHT) {
+        if(k == KeyEvent.VK_RIGHT) {
 
             setPlayerPosition(16, 0);
+            myChar.setFacingDirection(3);
 
         }
         //Left arrow pressed move 1 to the left
-        if (k == KeyEvent.VK_LEFT) {
+        if(k == KeyEvent.VK_LEFT) {
 
             setPlayerPosition(-16, 0);
+            myChar.setFacingDirection(2);
 
         }
         //Down arrow pressed move 1 tile down
-        if (k == KeyEvent.VK_DOWN) {
+        if(k == KeyEvent.VK_DOWN) {
 
             setPlayerPosition(0, 16);
-
+            myChar.setFacingDirection(1);
 
         }
         //Up arrow pressed move 1 tile up
-        if (k == KeyEvent.VK_UP) {
-
+        if(k == KeyEvent.VK_UP) {
 
             setPlayerPosition(0, -16);
+            myChar.setFacingDirection(0);
+
         }
 
 
-    }
 
+    }
     private boolean playerEnteringNextLevel(int yMove) {
 
         return (myChar.getY() + yMove) >= 240;
@@ -124,11 +141,40 @@ public class Level1State extends GameState {
         } else {
             myChar.setPosition(xMove, yMove);
         }
+        //test if there is monster on the new position
+        if(hasEncountered(myChar.getX(), myChar.getY())){
+            gsm.startFightState(myChar, monsters[battleMonster]);
+        }
+    }
+    private boolean hasEncountered(int x, int y) {
+
+        for(int i = 0; i < monsters.length; i++) {
+
+            if(monsters[i] != null) {
+                if (monsters[i].getX() == x && monsters[i].getY() == y) {
+                    battleMonster = i;
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
     public void keyReleased(int k) {
 
+
+    }
+
+    private void removeDeadMonster() {
+
+        for(int i = 0; i < monsters.length; i++) {
+            if(monsters[i] != null) {
+                if (monsters[i].getHealth() <= 0) {
+                    monsters[i] = null;
+                }
+            }
+        }
 
     }
 

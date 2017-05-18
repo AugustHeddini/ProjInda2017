@@ -19,6 +19,9 @@ public class Player {
     public static final int HIT = 10;
     public static final int CRITICAL = 25;
 
+    public static final String[] DIRECTIONS = {"UP", "DOWN", "LEFT", "RIGHT"};
+    public static int CURR_DIRECTION = 1;
+
     //position of the player
     private int x;
     private int y;
@@ -82,39 +85,6 @@ public class Player {
         this.y = y;
     }
 
-    /**
-     * find out if there was a collision with blocked wall
-     */
-    public boolean wasCollision() {
-
-
-        return false;
-    }
-
-    /**
-     * Finds out if the character has gone off screen
-     */
-    public boolean outOfBounds() {
-
-        //touches the left wall
-        if (x < 0) {
-            return true;
-        }
-
-        //touches the right wall
-        if (x > GamePanel.WIDTH - WIDTH) {
-            return true;
-        }
-        //touches the ceiling of map
-        if (y < 0) {
-            return true;
-        }
-        //touches the floor of map
-        if (y > GamePanel.HEIGHT - HEIGHT) {
-            return true;
-        }
-        return false;
-    }
 
     public int getX() {
         return x;
@@ -122,10 +92,6 @@ public class Player {
 
     public int getY() {
         return y;
-    }
-
-    public boolean hasEncountered() {
-        return true;
     }
 
     public int getHealth() {
@@ -148,5 +114,19 @@ public class Player {
 
     public void damaged(int dmg) {
         health -= dmg;
+    }
+
+
+    /**
+     * Sets the direction the player is facing, allowing for interaction checks.
+     * @param direction the index value of the desired direction in DIRECTIONS
+     */
+    public void setFacingDirection(int direction) {
+        if (!(direction >= 0 && direction < DIRECTIONS.length)) {
+            System.out.println("Invalid direction input");
+        } else {
+            CURR_DIRECTION = direction;
+        }
+
     }
 }

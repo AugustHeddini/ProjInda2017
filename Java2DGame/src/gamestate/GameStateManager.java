@@ -12,9 +12,10 @@ public class GameStateManager {
     private int currentState;
 
     public static final int MENUSTATE = 0;
-    public static final int LEVEL1STATE = 1;
-    public static final int LEVEL2STATE = 2;
-    public static final int LEVEL3STATE = 3;
+    public static final int HELPSTATE = 1;
+    public static final int LEVEL1STATE = 2;
+    public static final int LEVEL2STATE = 3;
+    public static final int LEVEL3STATE = 4;
 
 
     private int currentLevel;
@@ -25,6 +26,7 @@ public class GameStateManager {
         currentLevel = 1;
         currentState = MENUSTATE;
         gameStates.add(new MenuState(this));
+        gameStates.add(new HelpState(this));
         gameStates.add(new Level1State(this));
 
 
@@ -65,6 +67,8 @@ public class GameStateManager {
 
     public void endFightState() {
         currentState -= 1;
+        gameStates.remove(currentState + 1);
+
     }
 
     public void addNextLevel(Player player) {

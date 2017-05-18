@@ -93,6 +93,7 @@ public class MenuState extends GameState {
         }
         if (currentChoice == 1) {
             //picked help
+            gsm.setState(gsm.HELPSTATE);
         }
         if (currentChoice == 2) {
             //picked quit

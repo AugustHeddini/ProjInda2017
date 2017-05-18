@@ -1,10 +1,14 @@
 package mapobjects;
 
+import tilemap.Pathfinder;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
+
+import static java.lang.Math.abs;
 
 /**
  * Created by johan on 2017-05-17.
@@ -30,6 +34,8 @@ public class Wizard implements Monster {
     //stats
     private int health;
     private Random random;
+
+    private Pathfinder finder;
 
     public Wizard(int x, int y, String path) {
 
@@ -97,5 +103,36 @@ public class Wizard implements Monster {
 
     public void damaged(int dmg) {
         health -= dmg;
+    }
+
+    public void setFinder(Pathfinder finder) {
+        this.finder = finder;
+    }
+
+    public void pathFind(int targetX, int targetY) {
+
+        // Placeholder to trigger an attack at melee range
+        if ( (abs(targetX/16 - x/16) + abs(targetY/16 - y/16)) == 1) {
+            attack();
+        } else {
+            //pathfinding
+            int dir = finder.findPath(x/16, y/16, targetX/16, targetY/16);
+
+            switch (dir) {
+                case 0: setPosition(0, -16);
+                    break;
+                case 1: setPosition(0, 16);
+                    break;
+                case 2: setPosition(-16, 0);
+                    break;
+                case 3: setPosition(16, 0);
+                    break;
+                case 4:
+                    break;
+                default: System.out.println("Error in pathfinding");
+                    break;
+            }
+        }
+
     }
 }

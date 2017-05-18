@@ -1,5 +1,7 @@
 package mapobjects;
 
+import tilemap.Pathfinder;
+
 /**
  * Created by johan on 2017-05-12.
  */
@@ -19,4 +21,7 @@ public interface Monster {
     int attack();
 
     void damaged(int dmg);
+
+    void pathFind(int x, int y);
+    void setFinder(Pathfinder finder);
 }

@@ -27,8 +27,12 @@ public class FightState extends GameState {
 
     private int playerHP;
     private int monsterHP;
+    private int startHP;
 
     private String help = "Press enter to attack";
+
+    private int oldx;
+    private int oldy;
 
     public FightState(GameStateManager gsm, Player myChar, Monster theMonster) {
 
@@ -37,6 +41,7 @@ public class FightState extends GameState {
         this.theMonster = theMonster;
         playerHP = myChar.getHealth();
         monsterHP = theMonster.getHealth();
+        startHP = monsterHP;
         init();
     }
 
@@ -56,6 +61,13 @@ public class FightState extends GameState {
 
         barFont = new Font("Arial", Font.PLAIN, 10);
         barColor = Color.BLACK;
+
+        //save old position before placing on fight map
+        oldx = myChar.getX();
+        oldy = myChar.getY();
+
+        myChar.setNewPosition(112, 88);
+        theMonster.setPosition(144 + 2*16, 88);
     }
 
     public void draw(java.awt.Graphics2D g) {
@@ -70,7 +82,7 @@ public class FightState extends GameState {
         g.drawString(help, 160, 220);
         g.setFont(barFont);
         g.drawString("HP:" + playerHP + "/100", 60, 20);
-        g.drawString("MonsterHp:" + monsterHP + "/100", 240, 20);
+        g.drawString("MonsterHp:" + monsterHP + "/" + startHP, 240, 20);
 
         myChar.draw(g);
 
@@ -88,8 +100,16 @@ public class FightState extends GameState {
         if (k == KeyEvent.VK_ENTER) {
             int dmg = myChar.attack();
             theMonster.damaged(dmg);
+            if(theMonster.getHealth() <= 0) {
+                endFightState();
+                return;
+            }
             dmg = theMonster.attack();
             myChar.damaged(dmg);
+            if(myChar.getHealth() <= 0) {
+                System.exit(0);
+                return;
+            }
         }
     }
 
@@ -98,6 +118,7 @@ public class FightState extends GameState {
     }
 
     private void endFightState() {
+        myChar.setNewPosition(oldx, oldy);
         gsm.endFightState();
     }
 }
